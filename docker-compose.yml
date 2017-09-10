@@ -1,0 +1,70 @@
+version: '3'
+services:
+  ps-1:
+    build: .
+    stdin_open: true
+    tty: true
+    volumes:
+    - /tmp/data:/model
+    - ./output:/output
+    - ./trainer:/trainer
+    working_dir: /trainer
+    entrypoint:
+    - python
+    - task.py
+    - --data_dir=/model
+    - --output_dir=/output
+    - --train_steps=1
+    env_file:
+    - ps-1.env
+  master-0:
+    build: .
+    stdin_open: true
+    tty: true
+    volumes:
+    - /tmp/data:/model
+    - ./output:/output
+    - ./trainer:/trainer
+    working_dir: /trainer
+    entrypoint:
+    - python
+    - task.py
+    - --data_dir=/model
+    - --output_dir=/output
+    - --train_steps=1
+    env_file:
+    - master-0.env
+  worker-0:
+    build: .
+    stdin_open: true
+    tty: true
+    volumes:
+    - /tmp/data:/model
+    - ./output:/output
+    - ./trainer:/trainer
+    working_dir: /trainer
+    entrypoint:
+    - python
+    - task.py
+    - --data_dir=/model
+    - --output_dir=/output
+    - --train_steps=1
+    env_file:
+    - worker-0.env
+  worker-1:
+    build: .
+    stdin_open: true
+    tty: true
+    volumes:
+    - /tmp/data:/model
+    - ./output:/output
+    - ./trainer:/trainer
+    working_dir: /trainer
+    entrypoint:
+    - python
+    - task.py
+    - --data_dir=/model
+    - --output_dir=/output
+    - --train_steps=1
+    env_file:
+    - worker-1.env
