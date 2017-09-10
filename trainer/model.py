@@ -17,9 +17,12 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-import tensorflow as tf
-from tensorflow.python.estimator.model_fn import ModeKeys as Modes
+import json
 
+import os
+import tensorflow as tf
+from tensorflow.contrib.learn import RunConfig
+from tensorflow.python.estimator.model_fn import ModeKeys as Modes
 
 tf.logging.set_verbosity(tf.logging.INFO)
 
@@ -128,10 +131,14 @@ def _cnn_model_fn(features, labels, mode):
 
 
 def build_estimator(model_dir):
+  config = RunConfig(save_checkpoints_secs=180)
+  print('----------------------TF_CONFIG--------------------------')
+  print(os.environ['TF_CONFIG'])
+  print('---------------------------------------------------------')
   return tf.estimator.Estimator(
       model_fn=_cnn_model_fn,
       model_dir=model_dir,
-      config=tf.contrib.learn.RunConfig(save_checkpoints_secs=180))
+      config=config)
 
 
 def serving_input_fn():
